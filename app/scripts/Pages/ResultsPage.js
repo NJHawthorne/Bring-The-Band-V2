@@ -2,6 +2,7 @@ import React from 'react';
 import Navigation from './../Subcomponents/Navigation.js';
 import IndividualBand from './../Subcomponents/individualBand.js';
 import VotedBands from './../Collections/VotedBandsCollection.js';
+import _ from 'underscore';
 
 export default React.createClass({
 	getInitialState: function() {
@@ -17,13 +18,21 @@ export default React.createClass({
 		this.state.votedBands.off('update change');
 	},
 	render: function() {
-		const eachBand = this.state.votedBands.map((val, i) => {
+		let bandList = this.state.votedBands.map((val, i) => {
+			return {
+				artist: val.get('artist'),
+				thumbnail: val.get('thumbnail'),
+				votes: val.get('votes')
+			};
+		});
+		let sortedList = _.sortBy(bandList, 'votes').reverse();
+		const eachBand = sortedList.map((val, i) => {
 			return (
 				<IndividualBand
 					key={i}
-					bandName={val.get('artist')}
-					thumbnail={val.get('thumbnail')}
-					votes={val.get('votes')} 
+					bandName={val.artist}
+					thumbnail={val.thumbnail}
+					votes={val.votes} 
 					upvote={this.handleUpvote}
 					downvote={this.handleDownvote} />
 			)
@@ -37,13 +46,12 @@ export default React.createClass({
 		);
 	},
 	handleDownvote: function(bandName, thumbnail) {
-		console.log('You downvoted. You monster.');
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
-					artist: val.get('artist'),
-					thumbnail: val.get('thumbnail'),
-					id: val.get('_id')
-				};
+				artist: val.get('artist'),
+				thumbnail: val.get('thumbnail'),
+				id: val.get('_id')
+			};
 		});
 		bandList.forEach((val, i) => {
 			if(val.artist === bandName) {
@@ -55,13 +63,12 @@ export default React.createClass({
 		});
 	},
 	handleUpvote: function(bandName, thumbnail) {
-		console.log('You upvoted. Good for you!');
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
-					artist: val.get('artist'),
-					thumbnail: val.get('thumbnail'),
-					id: val.get('_id')
-				};
+				artist: val.get('artist'),
+				thumbnail: val.get('thumbnail'),
+				id: val.get('_id')
+			};
 		});
 		bandList.forEach((val, i) => {
 			if(val.artist === bandName) {
