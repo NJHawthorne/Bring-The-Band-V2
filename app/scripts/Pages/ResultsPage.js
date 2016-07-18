@@ -49,6 +49,7 @@ export default React.createClass({
 			return (
 				<IndividualBand
 					key={i}
+					order={i}
 					bandName={val.artist}
 					thumbnail={val.thumbnail}
 					votes={currentVote} 
@@ -75,7 +76,7 @@ export default React.createClass({
 		const sortedList = _.sortBy(bandList, 'votes').reverse();
 		this.setState({sortedList: sortedList, listSorted: true});
 	},
-	handleDownvote: function(bandName) {
+	handleDownvote: function(bandName, voteAmount) {
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
 				artist: val.get('artist'),
@@ -86,12 +87,12 @@ export default React.createClass({
 			if(val.artist === bandName) {
 				let updatedBand = this.state.votedBands.get(val.id);
 				updatedBand.save({
-					votes: updatedBand.get('votes') - 1
+					votes: updatedBand.get('votes') - voteAmount
 				});
 			}
 		});
 	},
-	handleUpvote: function(bandName) {
+	handleUpvote: function(bandName, voteAmount) {
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
 				artist: val.get('artist'),
@@ -102,7 +103,7 @@ export default React.createClass({
 			if(val.artist === bandName) {
 				let updatedBand = this.state.votedBands.get(val.id);
 				updatedBand.save({
-					votes: updatedBand.get('votes') + 1
+					votes: updatedBand.get('votes') + voteAmount
 				});
 			}
 		});

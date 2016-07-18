@@ -3,6 +3,8 @@ import $ from 'jquery';
 
 const IndividualBand = React.createClass({
 	render: function() {
+		const upvoteOrder = 'upvote'+this.props.order.toString();
+		const downvoteOrder = 'downvote'+this.props.order.toString();
 		if(!this.props.downvote) {
 			return (
 				<div
@@ -21,9 +23,11 @@ const IndividualBand = React.createClass({
 					<p>{this.props.bandName}: {this.props.votes}</p>
 					<img src={this.props.thumbnail} />
 					<span
+						id={upvoteOrder}
 						onClick={this.handleUpvote} >Upvote!
 					</span>
 					<span
+						id={downvoteOrder}
 						onClick={this.handleDownvote} >Downvote!
 					</span>
 				</div>
@@ -31,34 +35,36 @@ const IndividualBand = React.createClass({
 		}
 	},
 	handleUpvote: function(e) {
-		let upvote = true;
+		let orderNumber = e.target.id.slice(6);
 		if(e.target.className === 'upVoted') {
 			$(e.target).removeClass('upVoted');
-			upvote = false;
+			this.props.downvote(this.props.bandName, 1);
+		} else if($(`#downvote${orderNumber}`).hasClass('downVoted')) {
+			$(`#downvote${orderNumber}`).removeClass('downVoted');
+			$(e.target).addClass('upVoted');
+			this.props.upvote(this.props.bandName, 2);
 		} else {
 			$(e.target).addClass('upVoted');
-			upvote = true;
+			this.props.upvote(this.props.bandName, 1);
 		}
-		if(upvote) {
-			this.props.upvote(this.props.bandName);
-		} else {
-			this.props.downvote(this.props.bandName);
-		}
+
+		
 	},
 	handleDownvote: function(e) {
-		let downvote = true;
+		let orderNumber = e.target.id.slice(8);
 		if(e.target.className === 'downVoted') {
 			$(e.target).removeClass('downVoted');
-			downvote = false;
+			this.props.upvote(this.props.bandName, 1);
+		} else if($(`#upvote${orderNumber}`).hasClass('upVoted')) {
+			$(`#upvote${orderNumber}`).removeClass('upVoted');
+			$(e.target).addClass('downVoted');
+			this.props.downvote(this.props.bandName, 2);
 		} else {
 			$(e.target).addClass('downVoted');
-			downvote = true;
+			this.props.downvote(this.props.bandName, 1);
 		}
-		if(downvote) {
-			this.props.downvote(this.props.bandName);
-		} else {
-			this.props.upvote(this.props.bandName);
-		}
+		
+		
 	}
 });
 
