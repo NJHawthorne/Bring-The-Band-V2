@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 const IndividualBand = React.createClass({
 	render: function() {
@@ -8,9 +9,9 @@ const IndividualBand = React.createClass({
 					key={this.props.key}>
 					<p>{this.props.bandName}</p>
 					<img src={this.props.thumbnail} />
-					<button
+					<span
 						onClick={this.handleUpvote} >Vote!
-					</button>
+					</span>
 				</div>
 			);
 		} else {
@@ -19,21 +20,45 @@ const IndividualBand = React.createClass({
 					key={this.props.key}>
 					<p>{this.props.bandName}: {this.props.votes}</p>
 					<img src={this.props.thumbnail} />
-					<button
+					<span
 						onClick={this.handleUpvote} >Upvote!
-					</button>
-					<button
+					</span>
+					<span
 						onClick={this.handleDownvote} >Downvote!
-					</button>
+					</span>
 				</div>
 			);
 		}
 	},
-	handleUpvote: function() {
-		this.props.upvote(this.props.bandName, this.props.thumbnail);
+	handleUpvote: function(e) {
+		let upvote = true;
+		if(e.target.className === 'upVoted') {
+			$(e.target).removeClass('upVoted');
+			upvote = false;
+		} else {
+			$(e.target).addClass('upVoted');
+			upvote = true;
+		}
+		if(upvote) {
+			this.props.upvote(this.props.bandName);
+		} else {
+			this.props.downvote(this.props.bandName);
+		}
 	},
-	handleDownvote: function() {
-		this.props.downvote(this.props.bandName, this.props.thumbnail);
+	handleDownvote: function(e) {
+		let downvote = true;
+		if(e.target.className === 'downVoted') {
+			$(e.target).removeClass('downVoted');
+			downvote = false;
+		} else {
+			$(e.target).addClass('downVoted');
+			downvote = true;
+		}
+		if(downvote) {
+			this.props.downvote(this.props.bandName);
+		} else {
+			this.props.upvote(this.props.bandName);
+		}
 	}
 });
 

@@ -6,7 +6,11 @@ import _ from 'underscore';
 
 export default React.createClass({
 	getInitialState: function() {
-		return {votedBands: VotedBands};
+		return {
+			votedBands: VotedBands,
+			listSorted: false,
+			sortedList: []
+		};
 	},
 	componentDidMount: function() {
 		this.state.votedBands.on('update change', () => {
@@ -18,21 +22,36 @@ export default React.createClass({
 		this.state.votedBands.off('update change');
 	},
 	render: function() {
-		let bandList = this.state.votedBands.map((val, i) => {
+		if(this.state.listSorted === false && this.state.votedBands.length > 0) {
+			this.sortList();
+		}
+		const normalBandList = this.state.votedBands.map((val, i) => {
 			return {
 				artist: val.get('artist'),
 				thumbnail: val.get('thumbnail'),
 				votes: val.get('votes')
+			}
+		});
+		const sortedBandList = this.state.sortedList.map((val, i) => {
+			return {
+				artist: val.artist,
+				thumbnail: val.thumbnail,
+				votes: val.votes
 			};
 		});
-		let sortedList = _.sortBy(bandList, 'votes').reverse();
-		const eachBand = sortedList.map((val, i) => {
+		const eachBand = sortedBandList.map((val, i) => {
+			let currentVote = 0;
+			normalBandList.forEach((value) => {
+				if(val.artist === value.artist) {
+					currentVote = value.votes;
+				}
+			});
 			return (
 				<IndividualBand
 					key={i}
 					bandName={val.artist}
 					thumbnail={val.thumbnail}
-					votes={val.votes} 
+					votes={currentVote} 
 					upvote={this.handleUpvote}
 					downvote={this.handleDownvote} />
 			)
@@ -45,11 +64,21 @@ export default React.createClass({
 			</section>
 		);
 	},
-	handleDownvote: function(bandName, thumbnail) {
-		let bandList = this.state.votedBands.map((val, i) => {
+	sortList: function() {
+		const bandList = this.state.votedBands.map((val, i) => {
 			return {
 				artist: val.get('artist'),
 				thumbnail: val.get('thumbnail'),
+				votes: val.get('votes')
+			};
+		});
+		const sortedList = _.sortBy(bandList, 'votes').reverse();
+		this.setState({sortedList: sortedList, listSorted: true});
+	},
+	handleDownvote: function(bandName) {
+		let bandList = this.state.votedBands.map((val, i) => {
+			return {
+				artist: val.get('artist'),
 				id: val.get('_id')
 			};
 		});
@@ -62,11 +91,10 @@ export default React.createClass({
 			}
 		});
 	},
-	handleUpvote: function(bandName, thumbnail) {
+	handleUpvote: function(bandName) {
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
 				artist: val.get('artist'),
-				thumbnail: val.get('thumbnail'),
 				id: val.get('_id')
 			};
 		});

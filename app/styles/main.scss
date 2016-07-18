@@ -3,3 +3,16 @@
 body {
   background: $light-grey;
 }
+
+img {
+	height: 256px;
+	width: 256px;
+}
+
+.upVoted {
+	background-color: green;
+}
+
+.downVoted {
+	background-color: red;
+}
