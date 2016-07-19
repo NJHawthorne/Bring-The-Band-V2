@@ -5,9 +5,9 @@ export default React.createClass({
 	render: function() {
 		return (
 			<nav>
-				<Link to="/">Home Page</Link>
-				<Link to="/search">Search Page</Link>
-				<Link to="/results">Results Page</Link>
+				<Link to="/">Bring the Band!</Link>
+				<Link to="/search">Find your artist!</Link>
+				<Link to="/results">See who's going!</Link>
 			</nav>
 		);
 	}

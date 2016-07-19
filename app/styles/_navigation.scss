@@ -1,0 +1,18 @@
+@import 'variables';
+
+nav {
+	background-color: $main-dark-blue;
+	font-family: 'Oswald';
+	a {
+		display: inline-block;
+		font-size: 1.25em;
+		letter-spacing: 2px;
+		color: #fff;
+		text-decoration: none;
+		padding: 1.5rem 5%;
+	}
+	a:hover {
+		background-color: #132435;
+		transition: all 0.7s ease;
+	}
+}

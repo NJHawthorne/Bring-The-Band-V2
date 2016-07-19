@@ -31,7 +31,7 @@ export default React.createClass({
 					key={i}
 					bandName={val.name}
 					thumbnail={val.images[0].url} 
-					upvote={this.handleUpvote} />
+					upvote={this.handleNewBand} />
 			);
 		});
 		return (
@@ -60,7 +60,7 @@ export default React.createClass({
 			});
 		}.bind(this));
 	},
-	handleUpvote: function(bandName, thumbnail) {
+	handleNewBand: function(bandName, thumbnail) {
 		let existingBand = false;
 		let bandList = this.state.votedBands.map((val, i) => {
 			return {
