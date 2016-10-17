@@ -3,13 +3,16 @@
 nav {
 	background-color: $main-dark-blue;
 	font-family: 'Oswald';
+	display: flex;
+	width: 100%;
 	a {
-		display: inline-block;
-		font-size: 1.25em;
+		display: flex;
+		font-size: 1.5rem;
 		letter-spacing: 2px;
 		color: #fff;
 		text-decoration: none;
-		padding: 1.5rem 5%;
+		padding: 1.5rem 4%;
+		margin: 0 5.6%;
 	}
 	a:hover {
 		background-color: #132435;

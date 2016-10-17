@@ -35,19 +35,23 @@ export default React.createClass({
 			);
 		});
 		return (
-			<section>
+			<section className='searchPage'>
 				<Navigation />
-				<div>Search for things!</div>
-				<form
-					onSubmit={this.handleSearch}>
-					<input
-						type='text'
-						placeholder='Band name...'
-						ref='searchedBand' />
-					<input
-						type='submit' />
-				</form>
-				{results}
+				<div>
+					<h2>Search for things!</h2>
+					<form
+						onSubmit={this.handleSearch}>
+						<input
+							type='text'
+							placeholder='Band name...'
+							ref='searchedBand' />
+						<input
+							type='submit' />
+					</form>
+				</div>
+				<section className='results'>
+					{results}
+				</section>
 			</section>
 		);
 	},

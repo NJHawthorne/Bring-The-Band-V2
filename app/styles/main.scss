@@ -1,8 +1,13 @@
 @import 'variables';
 @import 'navigation';
+@import 'searchPage';
 
 body {
-  background: $light-grey;
+  	background-image: url("https://s1.wp.com/home.logged-out/images/pic-crowd.webp?2");
+  	background-size: cover;
+	background-position: top;
+	background-attachment: fixed;
+	color: #efefef;
 }
 
 img {

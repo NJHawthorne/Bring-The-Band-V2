@@ -3,28 +3,10 @@ import $ from 'jquery';
 
 const IndividualBand = React.createClass({
 	render: function() {
-		let upvoteOrder = '';
-		let downvoteOrder = '';
-		if(this.props.order === 0) {
-			upvoteOrder = 'upvote0';
-			downvoteOrder = 'downvote0'
-		}
+		let upvoteOrder = '', downvoteOrder = '';
 		if(this.props.order) {
 			upvoteOrder += 'upvote'+this.props.order.toString();
 			downvoteOrder += 'downvote'+this.props.order.toString();
-		}
-		if(!this.props.downvote) {
-			return (
-				<div
-					key={this.props.key}>
-					<p>{this.props.bandName}</p>
-					<img src={this.props.thumbnail} />
-					<span
-						onClick={this.handleNewBand} >Vote!
-					</span>
-				</div>
-			);
-		} else {
 			return (
 				<div
 					key={this.props.key}>
@@ -37,6 +19,17 @@ const IndividualBand = React.createClass({
 					<span
 						id={downvoteOrder}
 						onClick={this.handleDownvote} >Downvote!
+					</span>
+				</div>
+			);
+		} else {
+			return (
+				<div
+					key={this.props.key}>
+					<p>{this.props.bandName}</p>
+					<img src={this.props.thumbnail} />
+					<span
+						onClick={this.handleNewBand} >Vote!
 					</span>
 				</div>
 			);
